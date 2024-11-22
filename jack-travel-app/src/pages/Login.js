@@ -17,7 +17,7 @@ function Login() {
   };
 
   return (
-    <div className="App">
+    <div className='App'>
     {/* Header */}
     <header className="App-header">
       <h1>Login / Sign Up</h1>

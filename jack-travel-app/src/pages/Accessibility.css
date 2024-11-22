@@ -1,0 +1,68 @@
+/* Default Theme */
+:root {
+    --bg-color: #fffaf0;
+    --text-color: #17a2b8;
+    --font-family: Arial, sans-serif;
+    --font-size: 16px;
+  }
+  
+  /* Dark Theme */
+  [data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #17a2b8;
+  }
+  
+  /* High Contrast Theme */
+  [data-theme="high-contrast"] {
+    --bg-color: black;
+    --text-color: yellow;
+  }
+  
+  /* Sepia Theme */
+  [data-theme="sepia"] {
+    --bg-color: #f5e6c8;
+    --text-color: #5b4636;
+  }
+  
+  /* Default Font */
+  [data-font="default"] {
+    --font-family: Arial, sans-serif;
+    --font-size: 16px;
+  }
+  
+  /* Dyslexia Font */
+  [data-font="dyslexia"] {
+    --font-family: "OpenDyslexic", Arial, sans-serif;
+  }
+  
+  /* Large Font */
+  [data-font="large"] {
+    --font-size: 20px;
+  }
+  
+  /* Apply Variables Globally */
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Accessibility Page Styles */
+  .accessibility {
+    padding: 20px;
+  }
+  
+  button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  

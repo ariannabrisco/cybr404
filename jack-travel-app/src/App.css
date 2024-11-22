@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  background-color: #fffaf0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,7 +9,6 @@
 
 .App-header {
   font-size: 2rem;
-  color: #17a2b8;
 }
 
 /* General Button styling */
