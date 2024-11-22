@@ -32,22 +32,9 @@ const Home = () => {
             color: "#fff",
             border: "none",
             cursor: "pointer",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center"
           }}
           onClick={() => alert("Food button clicked!")}
         >
-          <img
-            src="./images/food_unfilled.svg"
-            alt="Ramen"
-            style={{
-              width: "40px",
-              heigh: "40px",
-              marginBottom: "8px",
-            }}
-          />
           Food
         </button>
         <button
