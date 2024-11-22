@@ -73,6 +73,7 @@ const Home = () => {
           type="text"
           placeholder="Search here..."
           value={searchQuery}
+          aria-label="Search here"
           onChange={(e) => setSearchQuery(e.target.value)} // Update search state
           style={{
             padding: "10px",
