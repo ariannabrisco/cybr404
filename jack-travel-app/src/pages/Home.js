@@ -39,14 +39,14 @@ const Home = () => {
           }}
           onClick={() => alert("Food button clicked!")}
         >
-          🌮 Food
+          🍜 Food
         </button>
         <button
           style={{
             padding: "10px 20px",
             fontSize: "16px",
             borderRadius: "5px",
-            backgroundColor: "#17a2b8",
+            backgroundColor: "#74c69d",
             color: "#fff",
             border: "none",
             cursor: "pointer",
@@ -126,7 +126,7 @@ const Home = () => {
               >
                 <img
                   src={`https://via.placeholder.com/40?text=${index + 1}`}
-                  alt={place}
+                  alt=''
                   style={{ marginRight: "10px", borderRadius: "50%" }}
                 />
                 <span style={{ fontSize: "16px" }}>{place}</span>
