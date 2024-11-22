@@ -4,14 +4,16 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Accessibility from "./pages/Accessibility";
 
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} /> {/* Home page */}
-        <Route path="/login" element={<Login />} /> {/* Login page */}
+        <Route path="/" element={<Home />} /> 
+        <Route path="/login" element={<Login />} />
+        <Route path="/accessibility" element={<Accessibility />} />
       </Routes>
     </Router>
   );
