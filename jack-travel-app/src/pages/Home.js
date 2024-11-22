@@ -39,16 +39,7 @@ const Home = () => {
           }}
           onClick={() => alert("Food button clicked!")}
         >
-          <img
-            src="./images/food_unfilled.svg"
-            alt="Ramen"
-            style={{
-              width: "40px",
-              heigh: "40px",
-              marginBottom: "8px",
-            }}
-          />
-          Food
+          🌮 Food
         </button>
         <button
           style={{
@@ -62,7 +53,7 @@ const Home = () => {
           }}
           onClick={() => alert("Events button clicked!")}
         >
-          Events
+          🎟️ Events
         </button>
         <button
           style={{
@@ -76,7 +67,7 @@ const Home = () => {
           }}
           onClick={() => alert("Places button clicked!")}
         >
-          Places
+         🛍️ Places
         </button>
       </div>
 
@@ -110,6 +101,39 @@ const Home = () => {
         >
           Search
         </button>
+      </div>
+
+      {/* Hot List Section */}
+      <div style={{ marginTop: "20px" }}>
+        <h2 style={{ fontSize: "20px", marginBottom: "10px" }}>🔥 Hot List 🔥</h2>
+        <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
+          {["Place 1", "Place 2", "Place 3", "Place 4", "Place 5"].map(
+            (place, index) => (
+              <li
+                key={index}
+                style={{
+                  padding: "10px",
+                  marginBottom: "10px",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#f9f9f9",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s",
+                }}
+                onClick={() => alert(`${place} clicked!`)}
+              >
+                <img
+                  src={`https://via.placeholder.com/40?text=${index + 1}`}
+                  alt={place}
+                  style={{ marginRight: "10px", borderRadius: "50%" }}
+                />
+                <span style={{ fontSize: "16px" }}>{place}</span>
+              </li>
+            )
+          )}
+        </ul>
       </div>
     </div>
   );
