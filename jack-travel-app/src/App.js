@@ -2,14 +2,17 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
+import "./index.css";
 import Navbar from "./components/Navbar";
 import AccessibilitySidebar from "./components/AccessibilitySidebar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 function App() {
+  {/* Sidebar Functionality */}
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  {/* Theme Functionality */}
   const [theme, setTheme] = useState("default");
     useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
