@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import AccessibilitySidebar from "../components/AccessibilitySidebar";
+
 
 const Home = () => {
   // Search Functionality
@@ -11,6 +13,21 @@ const Home = () => {
     }
     alert(`You searched for ${searchQuery}`);
   };
+
+  // Favorite Functionality
+  const [favorites, setFavorites] = useState([]);
+
+  const toggleFavorite = (place) => {
+    setFavorites((prev) =>
+      prev.includes(place)
+        ? prev.filter((fav) => fav !== place) // Remove from favorites
+        : [...prev, place] // Add to favorites
+    );
+  };
+
+  // Sidebar Functionality
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   
   // Return (Display)
   return (
@@ -105,36 +122,51 @@ const Home = () => {
 
       {/* Hot List Section */}
       <div style={{ marginTop: "20px" }}>
-        <h2 style={{ fontSize: "20px", marginBottom: "10px" }}>🔥 Hot List 🔥</h2>
-        <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
-          {["Place 1", "Place 2", "Place 3", "Place 4", "Place 5"].map(
-            (place, index) => (
-              <li
-                key={index}
-                style={{
-                  padding: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  display: "flex",
-                  alignItems: "center",
-                  backgroundColor: "#f9f9f9",
-                  cursor: "pointer",
-                  transition: "background-color 0.3s",
+      <h2 style={{ fontSize: "20px", marginBottom: "10px" }}>🔥 Hot List 🔥</h2>
+      <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
+        {["Place 1", "Place 2", "Place 3", "Place 4", "Place 5"].map(
+          (place, index) => (
+            <li
+              key={index}
+              style={{
+                padding: "10px",
+                marginBottom: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#f9f9f9",
+                cursor: "pointer",
+                transition: "background-color 0.3s",
+              }}
+              onClick={() => alert(`${place} clicked!`)}
+            >
+              <img
+                src={`https://via.placeholder.com/40?text=${index + 1}`}
+                alt=""
+                style={{ marginRight: "10px", borderRadius: "50%" }}
+              />
+              <span style={{ fontSize: "16px", flex: 1 }}>{place}</span>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(place);
                 }}
-                onClick={() => alert(`${place} clicked!`)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "20px",
+                  color: favorites.includes(place) ? "red" : "gray",
+                }}
               >
-                <img
-                  src={`https://via.placeholder.com/40?text=${index + 1}`}
-                  alt=''
-                  style={{ marginRight: "10px", borderRadius: "50%" }}
-                />
-                <span style={{ fontSize: "16px" }}>{place}</span>
-              </li>
-            )
-          )}
-        </ul>
-      </div>
+                {favorites.includes(place) ? "💞" : "🤍"}
+              </button>
+            </li>
+          )
+        )}
+      </ul>
+    </div>
     </div>
   );
 };

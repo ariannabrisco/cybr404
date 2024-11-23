@@ -1,3 +1,4 @@
+/* General Layout Styles */
 .App {
   text-align: center;
   min-height: 100vh;
@@ -9,6 +10,90 @@
 
 .App-header {
   font-size: 2rem;
+}
+
+/* Default Theme */
+:root {
+  --bg-color: #fffaf0;
+  --text-color: #17a2b8;
+  --font-family: Arial, sans-serif;
+  --font-size: 16px;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #17a2b8;
+}
+
+/* High Contrast Theme */
+[data-theme="high-contrast"] {
+  --bg-color: black;
+  --text-color: red;
+}
+
+/* Sepia Theme */
+[data-theme="sepia"] {
+  --bg-color: #f5e6c8;
+  --text-color: #5b4636;
+}
+
+/* Apply Variables Globally */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  margin: 0;
+  padding: 0;
+}
+
+/* Default Font */
+[data-font="default"] {
+  --font-family: Arial, sans-serif;
+  --font-size: 16px;
+}
+
+/* Dyslexia Font */
+[data-font="dyslexia"] {
+  --font-family: "OpenDyslexic", Arial, sans-serif;
+}
+
+/* Large Font */
+[data-font="large"] {
+  --font-size: 20px;
+}
+
+/* Accessibility Sidebar */
+.accessibility {
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  transition: background-color 0.3s ease, right 0.3s ease;
+  z-index: 1000;
+}
+
+/* Default Theme - Sidebar background */
+[data-theme="default"] .accessibility {
+  background-color: #fffaf0; /* Default background color */
+}
+
+/* Dark Theme - Sidebar background */
+[data-theme="dark"] .accessibility {
+  background-color: #121212; /* Dark background color */
+}
+
+/* High Contrast Theme - Sidebar background */
+[data-theme="high-contrast"] .accessibility {
+  background-color: black; /* High contrast background color */
+}
+
+/* Sepia Theme - Sidebar background */
+[data-theme="sepia"] .accessibility {
+  background-color: #f5e6c8; /* Sepia background color */
 }
 
 /* General Button styling */
@@ -23,6 +108,3 @@ button {
 button:hover {
   opacity: 0.8;
 }
-
-
- 
