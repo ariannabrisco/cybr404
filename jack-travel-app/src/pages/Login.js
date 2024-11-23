@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 
 function Login() {
-  // States to hold the input values for username and password
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // Handle form submission (Login button)
-  const handleLogin = (event) => {
+  const executeLogin = (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
     // *** ADD VERIFICATION HERE ***
     if (username === '' || password === '') {
-      alert('Please fill in both fields!');
+      alert('Please enter username and password!');
       return;
     }
-    alert(`Logged in as ${username}`);
+    alert(`Logged in as ${username}`);  // *** PLACEHOLDER (DATABASE CALL HERE TO DISPLAY FAVORITES?) ***
   };
 
   return (
@@ -22,10 +20,27 @@ function Login() {
     <header className="App-header">
       <h1>Login / Sign Up</h1>
     </header>
-      <form onSubmit={handleLogin} style={{ maxWidth: '400px', margin: 'auto' }}>
-        {/* Username Input */}
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="username" style={{ display: 'block', marginBottom: '8px' }}>Username</label>
+    {/* Fields & Button */}
+      <form 
+      onSubmit={executeLogin} 
+      style={{ 
+        maxWidth: '400px', 
+        margin: 'auto' 
+        }}>
+
+        {/* Username */}
+        <div 
+        style={{ 
+          marginBottom: '20px' 
+          }}
+          >
+          <label 
+          htmlFor="username" 
+          style={{ 
+            display: 'block', 
+            marginBottom: '8px' 
+            }}
+            >Username</label>
           <input
             type="text"
             id="username"
@@ -43,8 +58,12 @@ function Login() {
           />
         </div>
 
-        {/* Password Input */}
-        <div style={{ marginBottom: '20px' }}>
+        {/* Password */}
+        <div 
+        style={{ 
+          marginBottom: '20px' 
+          }}
+          >
           <label htmlFor="password" style={{ display: 'block', marginBottom: '8px' }}>Password</label>
           <input
             type="password"

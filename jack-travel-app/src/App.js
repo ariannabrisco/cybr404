@@ -1,40 +1,36 @@
+// imports
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
 import Navbar from "./components/Navbar";
 import AccessibilitySidebar from "./components/AccessibilitySidebar";
-import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState("default"); // Add state for theme
 
-  // Update the data-theme attribute when the theme changes
-  useEffect(() => {
+  const [theme, setTheme] = useState("default");
+    useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const handleThemeChange = (newTheme) => {
-    setTheme(newTheme); // Update the theme state
-  };
-
   return (
     <Router>
-      {/* Accessibility Button at the bottom-right */}
+      {/* Accessibility Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         style={{
           position: "fixed",
-          bottom: "10px", // Positioned at the bottom
-          right: "10px", // Positioned at the right side
+          bottom: "10px",
+          right: "10px",
           background: "blue",
           color: "white",
           border: "none",
           padding: "10px",
           borderRadius: "5px",
           cursor: "pointer",
-          zIndex: 1100, // Ensure it's above other content
+          zIndex: 2000,  // above Sidebar when open
         }}
       >
         {isSidebarOpen ? "Hide Accessibility" : "Show Accessibility"}
@@ -44,9 +40,9 @@ function App() {
       <AccessibilitySidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
-        onThemeChange={handleThemeChange} // Pass theme change handler
       />
       
+      {/* NavBar */}
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

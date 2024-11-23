@@ -1,4 +1,4 @@
-/* General Layout Styles */
+/* General Layout */
 .App {
   text-align: center;
   min-height: 100vh;
@@ -12,7 +12,21 @@
   font-size: 2rem;
 }
 
-/* Default Theme */
+/* General Button */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Default Theme aka Cute */
 :root {
   --bg-color: #fffaf0;
   --text-color: #17a2b8;
@@ -48,7 +62,7 @@ body {
   padding: 0;
 }
 
-/* Default Font */
+/* Default Font (WebAIM's min size)*/
 [data-font="default"] {
   --font-family: Arial, sans-serif;
   --font-size: 16px;
@@ -59,9 +73,9 @@ body {
   --font-family: "OpenDyslexic", Arial, sans-serif;
 }
 
-/* Large Font */
+/* Large Font (WebAIM's rec size)*/
 [data-font="large"] {
-  --font-size: 20px;
+  --font-size: 24px;
 }
 
 /* Accessibility Sidebar */
@@ -73,38 +87,5 @@ body {
   height: 100vh;
   width: 300px;
   transition: background-color 0.3s ease, right 0.3s ease;
-  z-index: 1000;
-}
-
-/* Default Theme - Sidebar background */
-[data-theme="default"] .accessibility {
-  background-color: #fffaf0; /* Default background color */
-}
-
-/* Dark Theme - Sidebar background */
-[data-theme="dark"] .accessibility {
-  background-color: #121212; /* Dark background color */
-}
-
-/* High Contrast Theme - Sidebar background */
-[data-theme="high-contrast"] .accessibility {
-  background-color: black; /* High contrast background color */
-}
-
-/* Sepia Theme - Sidebar background */
-[data-theme="sepia"] .accessibility {
-  background-color: #f5e6c8; /* Sepia background color */
-}
-
-/* General Button styling */
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.8;
+  z-index: 1000;  
 }
