@@ -15,7 +15,7 @@ const styles = {
   nav: {
     display: "flex",
     justifyContent: "space-around", // Evenly spaces out the links.
-    background: "#ff69b4",
+    background: "#DB006E",
     padding: "1rem",
   },
   link: {

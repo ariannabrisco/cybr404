@@ -29,7 +29,7 @@ button:hover {
 /* Default Theme aka Cute */
 :root {
   --bg-color: #fffaf0;
-  --text-color: #17a2b8;
+  --text-color: #1598AC;
   --font-family: Arial, sans-serif;
   --font-size: 16px;
 }
@@ -37,7 +37,7 @@ button:hover {
 /* Dark Theme */
 [data-theme="dark"] {
   --bg-color: #121212;
-  --text-color: #17a2b8;
+  --text-color: #1598AC;
 }
 
 /* High Contrast Theme */

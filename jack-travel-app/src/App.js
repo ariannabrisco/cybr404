@@ -27,7 +27,7 @@ function App() {
           position: "fixed",
           bottom: "10px",
           right: "10px",
-          background: "blue",
+          background: "#630FFF",
           color: "white",
           border: "none",
           padding: "10px",
