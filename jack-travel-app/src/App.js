@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import AccessibilitySidebar from "./components/AccessibilitySidebar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Results from "./pages/Results"
 
 function App() {
   {/* Sidebar Functionality */}
