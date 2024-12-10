@@ -1,36 +1,44 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
 
 const Home = () => {
-  // Search Functionality
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const inputRef = useRef(null);
+  const autocompleteRef = useRef(null);
 
-  const executeSearch = () => {
-    if (!searchQuery.trim()) {
-      alert("Please enter a search query!");
-      return;
-    }
-    alert(`You searched for ${searchQuery}`);
-  };
+  useEffect(() => {
+    const loadGoogleMapsScript = () => {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCAiBq6u-VFO7w4iIdesKOHKYN7GGmLhN4&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        console.log("Google Maps script loaded!");
+        if (inputRef.current) {
+          autocompleteRef.current = new google.maps.places.Autocomplete(
+            inputRef.current
+          );
+          autocompleteRef.current.addListener("place_changed", () => {
+            const place = autocompleteRef.current.getPlace();
+            if (place.geometry) {
+              console.log("Selected place:", place);
+              setSearchResults([place]);
+            }
+          });
+        }
+      };
+      document.head.appendChild(script);
+    };
+    loadGoogleMapsScript();
+  }, []);
 
-  // *** PLACEHOLDER *** Favorite Functionality simple state change
-  const [favoritesList, setFavoritesList] = useState([]);
-
-  const Favorite = (place) => {
-    setFavoritesList((prev) =>
-      prev.includes(place)
-        ? prev.filter((fav) => fav !== place) // Remove from favoritesList
-        : [...prev, place] // Add to favoritesList
-    );
-  };
-  
   // Return (Display)
   return (
     // Container for Everything
     <div className="App">
       {/* Header */}
       <header className="App-header">
-        <h1>JACK's Travel</h1>
+        <h1>JACK'ssssssssssss Travel</h1>
       </header>
 
       {/* Row of Category Buttons */}
