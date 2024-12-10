@@ -1,9 +1,38 @@
-import React, { useState } from "react";
-
+/* global google */
+import React, { useState, useEffect, useRef } from "react";
 
 const Home = () => {
-  // Search Functionality
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [favoritesList, setFavoritesList] = useState([]);
+  const inputRef = useRef(null);
+  const autocompleteRef = useRef(null);
+
+  useEffect(() => {
+    const loadGoogleMapsScript = () => {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCAiBq6u-VFO7w4iIdesKOHKYN7GGmLhN4&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        console.log("Google Maps script loaded!");
+        if (inputRef.current) {
+          autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current);
+          autocompleteRef.current.setFields(["address_components", "geometry", "formatted_address"]);
+
+          autocompleteRef.current.addListener("place_changed", () => {
+            const place = autocompleteRef.current.getPlace();
+            if (place.geometry) {
+              setSearchResults([place]);
+              setSearchQuery(place.formatted_address); // Set the full formatted address
+            }
+          });
+        }
+      };
+      document.head.appendChild(script);
+    };
+    loadGoogleMapsScript();
+  }, []);
 
   const executeSearch = () => {
     if (!searchQuery.trim()) {
@@ -13,20 +42,15 @@ const Home = () => {
     alert(`You searched for ${searchQuery}`);
   };
 
-  // *** PLACEHOLDER *** Favorite Functionality simple state change
-  const [favoritesList, setFavoritesList] = useState([]);
-
-  const Favorite = (place) => {
+  const toggleFavorite = (place) => {
     setFavoritesList((prev) =>
       prev.includes(place)
-        ? prev.filter((fav) => fav !== place) // Remove from favoritesList
-        : [...prev, place] // Add to favoritesList
+        ? prev.filter((fav) => fav !== place) // Remove from favorites
+        : [...prev, place] // Add to favorites
     );
   };
-  
-  // Return (Display)
+
   return (
-    // Container for Everything
     <div className="App">
       {/* Header */}
       <header className="App-header">
@@ -34,14 +58,7 @@ const Home = () => {
       </header>
 
       {/* Row of Category Buttons */}
-      <div 
-      style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        gap: "20px", 
-        marginTop: "30px" 
-        }}
-        >
+      <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "30px" }}>
         <button
           style={{
             padding: "10px 20px",
@@ -54,9 +71,9 @@ const Home = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
-          onClick={() => alert("Food button clicked!")}           // *** PLACEHOLDER API CALL WILL SHOW RESULTS ***
+          onClick={() => alert("Food button clicked!")} // Placeholder for Food API
         >
           🍜 Food
         </button>
@@ -70,7 +87,7 @@ const Home = () => {
             border: "none",
             cursor: "pointer",
           }}
-          onClick={() => alert("Events button clicked!")}           // *** PLACEHOLDER API CALL WILL SHOW RESULTS ***
+          onClick={() => alert("Events button clicked!")} // Placeholder for Events API
         >
           🎟️ Events
         </button>
@@ -84,25 +101,20 @@ const Home = () => {
             border: "none",
             cursor: "pointer",
           }}
-          onClick={() => alert("Places button clicked!")}           // *** PLACEHOLDER API CALL WILL SHOW RESULTS ***
+          onClick={() => alert("Places button clicked!")} // Placeholder for Places API
         >
-         🛍️ Places
+          🛍️ Places
         </button>
       </div>
 
-      {/* Search Bar and Button Section */}
-      <div 
-      style={{ 
-        textAlign: "center", 
-        marginTop: "30px" 
-        }}
-        >
+      {/* Search Bar */}
+      <div style={{ textAlign: "center", marginTop: "30px" }}>
         <input
+          ref={inputRef} // Attach ref to the input
           type="text"
           placeholder="Search for ..."
           value={searchQuery}
-          aria-label="Enter search here"
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)} // Allow typing
           style={{
             padding: "10px",
             fontSize: "18px",
@@ -128,78 +140,52 @@ const Home = () => {
       </div>
 
       {/* Hot List Section */}
-      <div 
-      style={{ 
-        marginTop: "20px" 
-        }}
-        >
-      <h2 
-      style={{ 
-        fontSize: "28px", 
-        marginBottom: "10px" 
-        }}
-        >🔥 Hot List 🔥</h2>
-      <ul 
-      style={{ 
-        listStyleType: "none", 
-        padding: "0", 
-        margin: "0" 
-        }}
-        >
-          {/* *** PLACEHOLDER TOP FIVE */}
-        {["Cunningham's Journal", "Axe Holes", "Kearney Community Theater", "The Lodge", "Candy Cane Parade"].map(
-          (place, index) => (
-            <li
-              key={index}
-              style={{
-                padding: "10px",
-                marginBottom: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                display: "flex",
-                alignItems: "center",
-
-                backgroundColor: "#fffaf0",
-                cursor: "pointer",
-                transition: "background-color 0.3s",
-              }}
-              onClick={() => alert(`${place} clicked!`)}  // *** PLACEHOLDER API CALL WILL SHOW INFO ***
-            >
-              <img
-                src={`https://via.placeholder.com/40?text=${index + 1}`} // *** MAYBE-PLACEHOLDER (literally) Free Gray Icon ***
-                alt="" // No alt per WAVE tool for redundancy
-                style={{ 
-                  marginRight: "10px", 
-                  borderRadius: "50%" 
-                }}
-              />
-              <span 
-              style={{ 
-                fontSize: "18px", 
-                flex: 1 
-                }}
-                >{place}</span>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  Favorite(place);
-                }}
+      <div style={{ marginTop: "20px" }}>
+        <h2 style={{ fontSize: "28px", marginBottom: "10px" }}>🔥 Hot List 🔥</h2>
+        <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
+          {["Cunningham's Journal", "Axe Holes", "Kearney Community Theater", "The Lodge", "Candy Cane Parade"].map(
+            (place, index) => (
+              <li
+                key={index}
                 style={{
-                  background: "none",
-                  border: "none",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#fffaf0",
                   cursor: "pointer",
-                  fontSize: "20px",
-                  color: favoritesList.includes(place) ? "red" : "gray",
+                  transition: "background-color 0.3s",
                 }}
+                onClick={() => alert(`${place} clicked!`)}
               >
-                {/* Pink Heart = Favorite, White Heart = Not Favorite*/}
-                {favoritesList.includes(place) ? "💞" : "🤍"}
-              </button>
-            </li>
-          )
-        )}
-      </ul>
-    </div>
+                <img
+                  src={`https://via.placeholder.com/40?text=${index + 1}`}
+                  alt=""
+                  style={{ marginRight: "10px", borderRadius: "50%" }}
+                />
+                <span style={{ fontSize: "16px", flex: 1 }}>{place}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(place);
+                  }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "20px",
+                    color: favoritesList.includes(place) ? "red" : "gray",
+                  }}
+                >
+                  {favoritesList.includes(place) ? "💞" : "🤍"}
+                </button>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
     </div>
   );
 };
