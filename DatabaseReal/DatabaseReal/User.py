@@ -11,6 +11,9 @@ django.setup()
 from django.db import models
 from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django import forms
+
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
@@ -58,3 +61,39 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.name
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
+
+
+class PreferenceCategory(models.TextChoices):
+    FOOD = 'food', _('Food')
+    EVENT = 'event', _('Event')
+    PLACE = 'place', _('Place')
+class Preference(models.Model):
+    RATING_CHOICES = [
+        (1, 'Low Preference'),
+        (2, 'Medium Preference'),
+        (3, 'High Preference')
+    ]
+class AccessibilityPreference(models.Model):
+    THEME_CHOICES = [
+        (1, 'Default'),
+        (2, 'Dark'),
+        (3, 'High Contrast'),
+        (4, 'Sepia')
+
+    ]
+    FONT_CHOICES = [
+        (1, 'Default'),
+        (2, 'Large Font'),
+
+
+    ]
+class PreferenceForm(forms.ModelForm):
+    class Meta:
+        model = Preference
+        fields = ['category', 'name', 'rating']
+
+    def clean_rating(self):
+        rating = self.cleaned_data.get('rating')
+        if rating not in [1, 2, 3]:
+            raise forms.ValidationError("Rating must be between 1 and 3.")
+        return rating
