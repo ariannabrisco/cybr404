@@ -34,7 +34,6 @@ function AccessibilitySidebar({ isOpen, onClose }) {
       <button onClick={() => setTheme("sepia")}>Sepia</button>
       <h3>Fonts</h3>
       <button onClick={() => setFont("default")}>Default</button>
-      <button onClick={() => setFont("dyslexia")}>Dyslexia Friendly</button>
       <button onClick={() => setFont("large")}>Large Font</button>
     </div>
   );
