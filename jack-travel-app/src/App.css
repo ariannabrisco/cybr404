@@ -70,7 +70,7 @@ body {
 
 /* Dyslexia Font */
 [data-font="dyslexia"] {
-  --font-family: "OpenDyslexic", Arial, sans-serif;
+  --font-family: "Open Dyslexic";
 }
 
 /* Large Font (WebAIM's rec size)*/
