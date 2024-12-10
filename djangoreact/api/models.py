@@ -1,18 +1,9 @@
-import django
-
-import os
-
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cybr404.settings')
-
-django.setup()
-
-
 from django.db import models
 from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django import forms
+
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -47,32 +38,47 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(blank=True, null=True)
 
-    objects = CustomUserManager()
-
     USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+    objects = CustomUserManager()
+
+    groups = models.ManyToManyField('auth.Group', related_name="api_user_set", blank=True)
+
+    user_permissions = models.ManyToManyField('auth.Permission', related_name="api_user_permissions_set", blank=True)
+
+
 
     def get_full_name(self):
         return self.name
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
 
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+
 
 class PreferenceCategory(models.TextChoices):
     FOOD = 'food', _('Food')
     EVENT = 'event', _('Event')
     PLACE = 'place', _('Place')
+
+
 class Preference(models.Model):
     RATING_CHOICES = [
         (1, 'Low Preference'),
         (2, 'Medium Preference'),
         (3, 'High Preference')
     ]
+    category = models.CharField(max_length=100, choices=PreferenceCategory.choices)
+    name = models.CharField(max_length=100)
+    rating = models.FloatField(choices=RATING_CHOICES)
+    def __str__(self):
+        return self.name
+
+
 class AccessibilityPreference(models.Model):
     THEME_CHOICES = [
         (1, 'Default'),
@@ -84,9 +90,15 @@ class AccessibilityPreference(models.Model):
     FONT_CHOICES = [
         (1, 'Default'),
         (2, 'Large Font'),
-
-
     ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='accessibility_preference')
+    theme = models.IntegerField(choices=THEME_CHOICES, default=1)
+    font_size = models.IntegerField(choices=FONT_CHOICES, default=1)
+
+    def __str__(self):
+        return f"Accessibility preference for {self.user.email}"
+
+
 class PreferenceForm(forms.ModelForm):
     class Meta:
         model = Preference
@@ -97,3 +109,14 @@ class PreferenceForm(forms.ModelForm):
         if rating not in [1, 2, 3]:
             raise forms.ValidationError("Rating must be between 1 and 3.")
         return rating
+
+
+class Location(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.TextField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    def __str__(self):
+        return self.name
+
