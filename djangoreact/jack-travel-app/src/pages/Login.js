@@ -50,7 +50,7 @@ function Login() {
             placeholder="Enter username"
             style={{
               padding: '10px',
-              fontSize: '16px',
+              fontSize: '18px',
               width: '100%',
               borderRadius: '5px',
               border: '1px solid #ccc',
@@ -87,7 +87,7 @@ function Login() {
           type="submit"
           style={{
             padding: '10px 20px',
-            fontSize: '16px',
+            fontSize: '18px',
             backgroundColor: '#17a2b8',
             color: '#fff',
             border: 'none',
