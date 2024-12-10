@@ -30,7 +30,7 @@ const Home = () => {
     <div className="App">
       {/* Header */}
       <header className="App-header">
-        <h1>JACK's Travel</h1>
+        <h1>JACK'sss Travel</h1>
       </header>
 
       {/* Row of Category Buttons */}
