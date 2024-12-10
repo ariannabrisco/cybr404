@@ -68,6 +68,11 @@ body {
   --font-size: 18px;
 }
 
+/* Dyslexia Font */
+[data-font="dyslexia"] {
+  --font-family: "OpenDyslexic", Arial, sans-serif;
+}
+
 /* Large Font (WebAIM's rec size)*/
 [data-font="large"] {
   --font-size: 24px;
