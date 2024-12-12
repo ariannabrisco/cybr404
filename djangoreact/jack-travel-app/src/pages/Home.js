@@ -102,7 +102,7 @@ const Home = () => {
         <button
           style={{
             padding: "10px 20px",
-            fontSize: "16px",
+            fontSize: "18px",
             borderRadius: "5px",
             backgroundColor: "#630FFF",
             color: "#fff",
@@ -120,7 +120,7 @@ const Home = () => {
         <button
           style={{
             padding: "10px 20px",
-            fontSize: "16px",
+            fontSize: "18px",
             borderRadius: "5px",
             backgroundColor: "#0071EB",
             color: "#fff",
@@ -134,7 +134,7 @@ const Home = () => {
         <button
           style={{
             padding: "10px 20px",
-            fontSize: "16px",
+            fontSize: "18px",
             borderRadius: "5px",
             backgroundColor: "#35825C",
             color: "#fff",
@@ -157,7 +157,7 @@ const Home = () => {
           onChange={handleInputChange} // Trigger search dynamically
           style={{
             padding: "10px",
-            fontSize: "16px",
+            fontSize: "18px",
             borderRadius: "5px",
             border: "1px solid #ccc",
             marginRight: "10px",
@@ -167,7 +167,7 @@ const Home = () => {
           onClick={executeSearch}
           style={{
             padding: "10px 20px",
-            fontSize: "16px",
+            fontSize: "18px",
             borderRadius: "5px",
             backgroundColor: "#DB006E",
             color: "#fff",
