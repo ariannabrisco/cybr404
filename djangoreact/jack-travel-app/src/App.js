@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import AccessibilitySidebar from "./components/AccessibilitySidebar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Results from "./pages/Results"
+import Results from "./pages/Results"; // Import Results page
 
 function App() {
   {/* Sidebar Functionality */}
@@ -15,7 +15,7 @@ function App() {
 
   {/* Theme Functionality */}
   const [theme, setTheme] = useState("default");
-    useEffect(() => {
+  useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
@@ -45,12 +45,15 @@ function App() {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      
+
       {/* NavBar */}
       <Navbar />
+
+      {/* Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/results" element={<Results />} /> {/* Add Results route */}
       </Routes>
     </Router>
   );
