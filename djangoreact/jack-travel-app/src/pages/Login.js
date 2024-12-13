@@ -1,8 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+
+  const currentHostname = window.location.hostname;
+  let apiURL = 'https://jacktravel.org/api/users/'
+  if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
+    apiURL = 'http://localhost/api/users/'
+  }
+
+  const sendUserLogin = async (username, password) => {
+      const response = await fetch(`${apiURL}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              username: `${username}`,
+              password: `${password}`,
+          })
+      })
+
+      if (!response.ok) {
+          alert("User already exists")
+      }
+  }
+
+const fetchUserLogin = async (username, password) => {
+      username = username.trim()
+      password = password.trim()
+      const response = await fetch(`${apiURL}${username}/`)
+      .then( response => {
+          return response.json()
+      })
+      if (response.username === `${username}` && response.password === `${password}`) {
+          return true;
+      } else {
+          alert("Invalid username or password");
+          return false;
+      }
+
+}
+
 
   const executeLogin = (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
@@ -11,7 +52,16 @@ function Login() {
       alert('Please enter username and password!');
       return;
     }
-    alert(`Logged in as ${username}`);  // *** PLACEHOLDER (DATABASE CALL HERE TO DISPLAY FAVORITES?) ***
+    fetchUserLogin(`${username}`, `${password}`)
+    .then(authenticated => {
+        if (authenticated === true) {
+            alert("YIPEE YOU SIGNED IN")
+        } else {
+            alert("OH NO NO SIGN IN ")
+    }
+    })
+
+    // alert(`Logged in as ${username}`);  // *** PLACEHOLDER (DATABASE CALL HERE TO DISPLAY FAVORITES?) ***
   };
 
   return (
