@@ -7,9 +7,10 @@ function Login() {
 
   const currentHostname = window.location.hostname;
   let apiURL = 'https://jacktravel.org/api/users/'
-  if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
-    apiURL = 'http://localhost/api/users/'
-  }
+  // COMMENTED OUT DUE TO ERROR ON ARIANNA MAC 
+  //if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
+  //  apiURL = 'http://localhost/api/users/'
+ // }
 
   const sendUserLogin = async (username, password) => {
       const response = await fetch(`${apiURL}`, {
