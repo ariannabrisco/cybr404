@@ -55,9 +55,9 @@ const fetchUserLogin = async (username, password) => {
     fetchUserLogin(`${username}`, `${password}`)
     .then(authenticated => {
         if (authenticated === true) {
-            alert("YIPEE YOU SIGNED IN")
+            alert("YIPEE YOU SIGNED IN :)")
         } else {
-            alert("OH NO NO SIGN IN ")
+            alert("OH NO NO SIGN IN :(")
     }
     })
 
