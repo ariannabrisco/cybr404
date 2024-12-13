@@ -28,9 +28,10 @@ class CustomUserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(blank=True, default='', unique=True)
-    username = models.CharField(max_length=255, blank=False, default='')
-    password = models.CharField(max_length=255, blank=False, default='', unique=True)
+
+    username = models.CharField(max_length=255, blank=False, default='', unique=True)
+    password = models.CharField(max_length=255, blank=False, default='', unique=False)
+    email = models.EmailField(blank=True, default='', unique=False)
 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -39,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(blank=True, null=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
