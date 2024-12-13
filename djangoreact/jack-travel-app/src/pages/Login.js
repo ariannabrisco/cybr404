@@ -38,7 +38,7 @@ const fetchUserLogin = async (username, password) => {
       if (response.username === `${username}` && response.password === `${password}`) {
           return true;
       } else {
-          alert("Invalid username or password");
+          alert("Invalid username or password. Click Sign Up to create an account.");
           return false;
       }
 
