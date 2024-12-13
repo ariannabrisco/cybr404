@@ -149,6 +149,24 @@ const fetchUserLogin = async (username, password) => {
         >
           Login
         </button>
+
+        {/* Sign Up Button */}
+        <button
+          type="submit"
+          style={{
+            padding: '10px 20px',
+            fontSize: '18px',
+            backgroundColor: '#17a2b8',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            alt: "Sign Up",
+            width: '100%',
+          }}
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   );
