@@ -114,6 +114,7 @@ const Home = () => {
           type="text"
           placeholder="Search for ..."
           value={searchQuery}
+          aria-label="Search bar entry"
           onChange={(e) => setSearchQuery(e.target.value)} // Allow typing
           style={{
             padding: "10px",
@@ -179,7 +180,7 @@ const Home = () => {
                     color: favoritesList.includes(place) ? "red" : "gray",
                   }}
                 >
-                  {favoritesList.includes(place) ? "💞" : "🤍"}
+                  {favoritesList.includes(place) ? "💞" : "🖤"}
                 </button>
               </li>
             )
