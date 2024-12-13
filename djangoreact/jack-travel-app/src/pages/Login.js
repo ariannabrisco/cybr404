@@ -10,7 +10,7 @@ function Login() {
 }
 
   const currentHostname = window.location.hostname;
-  let apiURL = 'https://jacktravel.org/api/users/'
+  let apiURL = 'https://jacktravel.org:8000/api/users/'
   // COMMENTED OUT DUE TO ERROR ON ARIANNA MAC 
 //  if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
 //    apiURL = 'http://localhost/api/users/'
