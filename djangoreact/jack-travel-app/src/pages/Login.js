@@ -4,13 +4,17 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  if (window.localStorage.getItem("username")) {
+    window.localStorage.clear()
+    window.location.reload()
+}
 
   const currentHostname = window.location.hostname;
   let apiURL = 'https://jacktravel.org/api/users/'
   // COMMENTED OUT DUE TO ERROR ON ARIANNA MAC 
-  //if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
-  //  apiURL = 'http://localhost/api/users/'
- // }
+//  if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
+//    apiURL = 'http://localhost/api/users/'
+//  }
 
   const sendUserLogin = async (username, password) => {
       const response = await fetch(`${apiURL}`, {
@@ -29,7 +33,7 @@ function Login() {
       }
   }
 
-const fetchUserLogin = async (username, password) => {
+  const fetchUserLogin = async (username, password) => {
       username = username.trim()
       password = password.trim()
       const response = await fetch(`${apiURL}${username}/`)
@@ -43,7 +47,7 @@ const fetchUserLogin = async (username, password) => {
           return false;
       }
 
-}
+  }
 
 
   const executeLogin = (event) => {
@@ -56,13 +60,10 @@ const fetchUserLogin = async (username, password) => {
     fetchUserLogin(`${username}`, `${password}`)
     .then(authenticated => {
         if (authenticated === true) {
-            alert("YIPEE YOU SIGNED IN :)")
-        } else {
-            alert("OH NO NO SIGN IN :(")
-    }
+            window.localStorage.setItem("username", username);
+            window.location.href = "/"
+        }
     })
-
-    // alert(`Logged in as ${username}`);  // *** PLACEHOLDER (DATABASE CALL HERE TO DISPLAY FAVORITES?) ***
   };
 
   return (
