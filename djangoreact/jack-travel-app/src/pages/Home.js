@@ -141,7 +141,7 @@ const Home = () => {
       </div>
 
       {/* Hot List Section */}
-      <div style={{ marginTop: "20px" }}>
+      {false && <div style={{ marginTop: "20px" }}>
         <h2 style={{ fontSize: "28px", marginBottom: "10px" }}>🔥 Hot List 🔥</h2>
         <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
           {["Cunningham's Journal", "Axe Holes", "Kearney Community Theater", "The Lodge", "Candy Cane Parade"].map(
@@ -186,7 +186,7 @@ const Home = () => {
             )
           )}
         </ul>
-      </div>
+      </div>}
     </div>
   );
 };
