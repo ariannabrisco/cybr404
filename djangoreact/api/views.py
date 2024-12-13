@@ -1,18 +1,29 @@
 from django.http import JsonResponse
 from .models import Location
+from .models import User
 
 
 def get_locations(request):
     locations = Location.objects.all()
-    data = [
-        {
+    data = {
+        loc.name:{
             "name": loc.name,
             "address": loc.address,
             "latitude": loc.latitude,
             "longitude": loc.longitude,
         }
         for loc in locations
-    ]
+    }
     return JsonResponse(data)
 
-
+def get_users(request):
+    users = User.objects.all()
+    data = {
+        user.username:{
+            "username": user.username,
+            "password": user.password,
+            "email": user.email,
+        }
+        for user in users
+    }
+    return JsonResponse(data)

@@ -21,7 +21,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html')),
     path('locations/', views.get_locations, name='locations'),
+    path('users/', views.get_users, name='users'),
 
 ]
