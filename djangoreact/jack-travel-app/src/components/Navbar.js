@@ -3,12 +3,23 @@ import { Link } from "react-router-dom";
 // import eventFilled from "../images/events_filled.svg"; <img src={eventFilled}></img>
 
 const Navbar = () => {
-  return (
+  const username = window.localStorage.getItem("username");
+  if (username) {
+    return (
     <nav style={styles.nav}>
       <Link to="/" style={styles.link}>🏡 Home</Link>
-      <Link to="/login" style={styles.link}>👤 Login / Sign Up</Link>      
+        <Link to="/profile" style={styles.link}>👤 Hello {username}</Link>
+        <Link to="/login" style={styles.link}>🚪 Logout</Link>
     </nav>
   );
+  } else {
+      return (
+        <nav style={styles.nav}>
+          <Link to="/" style={styles.link}>🏡 Home</Link>
+            <Link to="/login" style={styles.link}>👤 Login / Sign Up</Link>
+        </nav>
+      );
+  }
 };
 
 const styles = {

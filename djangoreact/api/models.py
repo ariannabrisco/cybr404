@@ -49,17 +49,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     user_permissions = models.ManyToManyField('auth.Permission', related_name="api_user_permissions_set", blank=True)
 
-
-
     def get_full_name(self):
         return self.name
+
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
 
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
-
 
 
 class PreferenceCategory(models.TextChoices):
@@ -77,6 +75,7 @@ class Preference(models.Model):
     category = models.CharField(max_length=100, choices=PreferenceCategory.choices)
     name = models.CharField(max_length=100)
     rating = models.FloatField(choices=RATING_CHOICES)
+
     def __str__(self):
         return self.name
 
