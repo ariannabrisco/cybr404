@@ -1,97 +1,98 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   if (window.localStorage.getItem("username")) {
-    window.localStorage.clear();
-    window.location.reload();
-  }
+    window.localStorage.clear()
+    window.location.reload()
+}
 
   const currentHostname = window.location.hostname;
-  let apiURL = 'https://jacktravel.org:8000/api/users/';
+  let apiURL = 'https://jacktravel.org:8000/api/users/'
   // COMMENTED OUT DUE TO ERROR ON ARIANNA MAC 
-  // if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
-  //   apiURL = 'http://localhost/api/users/';
-  // }
+//  if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
+//    apiURL = 'http://localhost/api/users/'
+//  }
 
-  {/* Sign Up Check if Existing Function */}
-  const sendUserSignUp = async (username, password) => {
-    const response = await fetch(`${apiURL}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username.trim(),
-        password: password.trim(),
-      }),
-    });
+  const sendUserLogin = async (username, password) => {
+      const response = await fetch(`${apiURL}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              username: `${username}`,
+              password: `${password}`,
+          })
+      })
 
-    if (response.ok) {
-      alert("Sign up successful! Please log in.");
-    } else {
-      const errorData = await response.json();
-      if (errorData.detail) {
-        alert("Username already exists. Please choose a different username.");
-      } else {
-        alert("An error occurred during sign up. Please try again.");
+      if (!response.ok) {
+          alert("User already exists")
       }
-    }
-  };
+  }
 
-  {/* Login Check if Correct Function */}
   const fetchUserLogin = async (username, password) => {
-    const response = await fetch(`${apiURL}${username.trim()}/`);
-    const userData = await response.json();
-
-    if (userData.username === username && userData.password === password) {
-      return true;
-    } else {
-      alert("Invalid username or password. Click Sign Up to create an account.");
-      return false;  // catch typos and no account exists
-    }
-  };
-
-  {/* Login Event Function */}
-  const executeLogin = (event) => {
-    event.preventDefault();
-    if (username === '' || password === '') {
-      alert('Please enter username and password!');  // if no info entered popup loop
-      return;
-    }
-    fetchUserLogin(username, password).then((authenticated) => {
-      if (authenticated) {
-        window.localStorage.setItem("username", username);  // local storage for nav bar Hello message
-        window.location.href = "/";
+      username = username.trim()
+      password = password.trim()
+      const response = await fetch(`${apiURL}${username}/`)
+      .then( response => {
+          return response.json()
+      })
+      if (response.username === `${username}` && response.password === `${password}`) {
+          return true;
+      } else {
+          alert("Invalid username or password. Click Sign Up to create an account.");
+          return false;
       }
-    });
-  };
 
-  {/* Sign Up Event Function */}
-  const executeSignUp = (event) => {
-    event.preventDefault();
+  }
+
+
+  const executeLogin = (event) => {
+    event.preventDefault(); // Prevent form from refreshing the page
+    // *** ADD VERIFICATION HERE ***
     if (username === '' || password === '') {
-      alert('Please enter username and password!');  // if no info entered popup loop
+      alert('Please enter username and password!');
       return;
     }
-    sendUserSignUp(username, password);  // send to check and have user login if done correctly
+    fetchUserLogin(`${username}`, `${password}`)
+    .then(authenticated => {
+        if (authenticated === true) {
+            window.localStorage.setItem("username", username);
+            window.location.href = "/"
+        }
+    })
   };
 
   return (
-    <div className="App">
-      {/* Header */}
-      <header className="App-header">
-        <h1>Login / Sign Up</h1>
-      </header>
-      {/* Fields & Button */}
-      <form style={{ maxWidth: '400px', margin: 'auto' }}>
-        {/* Username Form */}
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="username" style={{ display: 'block', marginBottom: '8px' }}>
-            Username
-          </label>
+    <div className='App'>
+    {/* Header */}
+    <header className="App-header">
+      <h1>Login / Sign Up</h1>
+    </header>
+    {/* Fields & Button */}
+      <form 
+      onSubmit={executeLogin} 
+      style={{ 
+        maxWidth: '400px', 
+        margin: 'auto' 
+        }}>
+
+        {/* Username */}
+        <div 
+        style={{ 
+          marginBottom: '20px' 
+          }}
+          >
+          <label 
+          htmlFor="username" 
+          style={{ 
+            display: 'block', 
+            marginBottom: '8px' 
+            }}
+            >Username</label>
           <input
             type="text"
             id="username"
@@ -109,11 +110,13 @@ function Login() {
           />
         </div>
 
-        {/* Password Form */}
-        <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '8px' }}>
-            Password
-          </label>
+        {/* Password */}
+        <div 
+        style={{ 
+          marginBottom: '20px' 
+          }}
+          >
+          <label htmlFor="password" style={{ display: 'block', marginBottom: '8px' }}>Password</label>
           <input
             type="password"
             id="password"
@@ -134,7 +137,6 @@ function Login() {
         {/* Login Button */}
         <button
           type="submit"
-          onClick={executeLogin}
           style={{
             padding: '10px 20px',
             fontSize: '18px',
@@ -145,7 +147,6 @@ function Login() {
             cursor: 'pointer',
             alt: "Login",
             width: '100%',
-            marginBottom: '10px',
           }}
         >
           Login
@@ -153,8 +154,7 @@ function Login() {
 
         {/* Sign Up Button */}
         <button
-        type="submit"
-          onClick={executeSignUp}  // only change from login button
+          type="submit"
           style={{
             padding: '10px 20px',
             fontSize: '18px',
