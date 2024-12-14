@@ -1,8 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  if (window.localStorage.getItem("username")) {
+    window.localStorage.clear()
+    window.location.reload()
+}
+
+  const currentHostname = window.location.hostname;
+  let apiURL = 'https://jacktravel.org:8000/api/users/'
+  // COMMENTED OUT DUE TO ERROR ON ARIANNA MAC 
+//  if (currentHostname === "localhost" || currentHostname === "127.0.0.1") {
+//    apiURL = 'http://localhost/api/users/'
+//  }
+
+  const sendUserLogin = async (username, password) => {
+      const response = await fetch(`${apiURL}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              username: `${username}`,
+              password: `${password}`,
+          })
+      })
+
+      if (!response.ok) {
+          alert("User already exists")
+      }
+  }
+
+  const fetchUserLogin = async (username, password) => {
+      username = username.trim()
+      password = password.trim()
+      const response = await fetch(`${apiURL}${username}/`)
+      .then( response => {
+          return response.json()
+      })
+      if (response.username === `${username}` && response.password === `${password}`) {
+          return true;
+      } else {
+          alert("Invalid username or password. Click Sign Up to create an account.");
+          return false;
+      }
+
+  }
+
 
   const executeLogin = (event) => {
     event.preventDefault(); // Prevent form from refreshing the page
@@ -11,7 +57,13 @@ function Login() {
       alert('Please enter username and password!');
       return;
     }
-    alert(`Logged in as ${username}`);  // *** PLACEHOLDER (DATABASE CALL HERE TO DISPLAY FAVORITES?) ***
+    fetchUserLogin(`${username}`, `${password}`)
+    .then(authenticated => {
+        if (authenticated === true) {
+            window.localStorage.setItem("username", username);
+            window.location.href = "/"
+        }
+    })
   };
 
   return (
@@ -98,6 +150,24 @@ function Login() {
           }}
         >
           Login
+        </button>
+
+        {/* Sign Up Button */}
+        <button
+          type="submit"
+          style={{
+            padding: '10px 20px',
+            fontSize: '18px',
+            backgroundColor: '#17a2b8',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            alt: "Sign Up",
+            width: '100%',
+          }}
+        >
+          Sign Up
         </button>
       </form>
     </div>
