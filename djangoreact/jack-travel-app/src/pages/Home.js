@@ -2,51 +2,80 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const Home = () => {
+  // States for storing search query, search results, and favorite places
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [favoritesList, setFavoritesList] = useState([]);
+
+  // Refs for managing the input and autocomplete functionality
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
 
   useEffect(() => {
+    // This effect will load the Google Maps script when the component mounts
     const loadGoogleMapsScript = () => {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCAiBq6u-VFO7w4iIdesKOHKYN7GGmLhN4&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCAiBq6u-VFO7w4iIdesKOHKYN7GGmLhN4&libraries=places`; // Google Maps API URL
       script.async = true;
       script.defer = true;
       script.onload = () => {
         console.log("Google Maps script loaded!");
+
+        // Initialize the autocomplete service once the script is loaded
         if (inputRef.current) {
           autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current);
-          autocompleteRef.current.setFields(["address_components", "geometry", "formatted_address"]);
+          autocompleteRef.current.setFields(["name", "address_components", "geometry", "formatted_address"]);
 
+          // Listener for when a place is selected in the autocomplete dropdown
           autocompleteRef.current.addListener("place_changed", () => {
             const place = autocompleteRef.current.getPlace();
             if (place.geometry) {
-              setSearchResults([place]);
-              setSearchQuery(place.formatted_address); // Set the full formatted address
+              // Set the search query based on the selected place (name or address)
+              setSearchQuery(place.name || place.formatted_address || "Unnamed Place");
             }
           });
         }
       };
-      document.head.appendChild(script);
+      document.head.appendChild(script); // Append the script to the document's head to load it
     };
-    loadGoogleMapsScript();
-  }, []);
+    loadGoogleMapsScript(); // Call the function to load the script
+  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
 
   const executeSearch = () => {
     if (!searchQuery.trim()) {
-      alert("Please enter a search query!");
+      alert("Please enter a search query!"); // Alert if the search query is empty
       return;
     }
-    alert(`You searched for ${searchQuery}`);
+
+    // Create a new PlacesService to query Google Places API
+    const service = new google.maps.places.PlacesService(document.createElement("div"));
+    const request = {
+      query: searchQuery, // Search query from the user input
+      fields: ["formatted_address", "geometry", "name", "place_id", "photos"], // Fields we need from the API
+    };
+
+    // Perform the search request using the Google Places API
+    service.textSearch(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        // If the search is successful, update the search results with data
+        setSearchResults(results.map((place) => ({
+          id: place.place_id,
+          name: place.name || "Unnamed Place",
+          address: place.formatted_address || "No address available",
+          photoUrl: place.photos && place.photos[0] ? place.photos[0].getUrl({ maxWidth: 40, maxHeight: 40 }) : "https://via.placeholder.com/40",
+        })));
+      } else {
+        console.error("Error fetching places:", status); // Log error if API request fails
+      }
+    });
   };
 
-  const toggleFavorite = (place) => {
+  const toggleFavorite = (placeId) => {
+    // Toggle a place between favorites list
     setFavoritesList((prev) =>
-      prev.includes(place)
-        ? prev.filter((fav) => fav !== place) // Remove from favorites
-        : [...prev, place] // Add to favorites
+      prev.includes(placeId)
+        ? prev.filter((fav) => fav !== placeId) // Remove from favorites if already there
+        : [...prev, placeId] // Add to favorites if not already in the list
     );
   };
 
@@ -68,10 +97,6 @@ const Home = () => {
             color: "#fff",
             border: "none",
             cursor: "pointer",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
           }}
           onClick={() => alert("Food button clicked!")} // Placeholder for Food API
         >
@@ -110,9 +135,12 @@ const Home = () => {
       {/* Search Bar */}
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <input
-          ref={inputRef} // Attach ref to the input
+          ref={inputRef} // Attach ref to the input for the autocomplete functionality
           type="text"
           placeholder="Search for ..."
+          value={searchQuery} // Bind the search query state to the input value
+          aria-label="Search bar entry" // Accessibility label
+          onChange={(e) => setSearchQuery(e.target.value)} // Update the search query state on user input
           value={searchQuery}
           aria-label="Search bar entry"
           onChange={(e) => setSearchQuery(e.target.value)} // Allow typing
@@ -125,7 +153,7 @@ const Home = () => {
           }}
         />
         <button
-          onClick={executeSearch}
+          onClick={executeSearch} // Trigger the search when the button is clicked
           style={{
             padding: "10px 20px",
             fontSize: "18px",
@@ -140,6 +168,12 @@ const Home = () => {
         </button>
       </div>
 
+      {/* Search Results */}
+      {searchResults.length > 0 && (
+        <div style={{ marginTop: "20px" }}>
+          <h2 style={{ fontSize: "28px", marginBottom: "10px" }}>🔍 Search Results 🔍</h2>
+          <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
+            {searchResults.map((place) => (
       {/* Hot List Section */}
       {false && <div style={{ marginTop: "20px" }}>
         <h2 style={{ fontSize: "28px", marginBottom: "10px" }}>🔥 Hot List 🔥</h2>
@@ -147,7 +181,7 @@ const Home = () => {
           {["Cunningham's Journal", "Axe Holes", "Kearney Community Theater", "The Lodge", "Candy Cane Parade"].map(
             (place, index) => (
               <li
-                key={index}
+                key={place.id} // Ensure each item has a unique key
                 style={{
                   padding: "10px",
                   marginBottom: "10px",
@@ -159,27 +193,37 @@ const Home = () => {
                   cursor: "pointer",
                   transition: "background-color 0.3s",
                 }}
-                onClick={() => alert(`${place} clicked!`)}
               >
                 <img
-                  src={`https://via.placeholder.com/40?text=${index + 1}`}
-                  alt=""
+                  src={place.photoUrl} // Display place photo or placeholder
+                  alt={place.name || "No image available"}
                   style={{ marginRight: "10px", borderRadius: "50%" }}
                 />
-                <span style={{ fontSize: "16px", flex: 1 }}>{place}</span>
+                <div style={{ flex: 1 }}>
+                  <span style={{ fontSize: "16px", display: "block", fontWeight: "bold" }}>
+                    {place.name}
+                  </span>
+                  <span style={{ fontSize: "14px", color: "gray" }}>
+                    {place.address}
+                  </span>
+                </div>
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFavorite(place);
-                  }}
+                  onClick={() => toggleFavorite(place.id)} // Toggle favorite when clicked
                   style={{
                     background: "none",
                     border: "none",
                     cursor: "pointer",
                     fontSize: "20px",
-                    color: favoritesList.includes(place) ? "red" : "gray",
+                    color: favoritesList.includes(place.id) ? "red" : "gray",
                   }}
                 >
+                  {favoritesList.includes(place.id) ? "💞" : "🖤"} {/* Show heart or empty heart */}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
                   {favoritesList.includes(place) ? "💞" : "🖤"}
                 </button>
               </li>

@@ -45,7 +45,7 @@ function App() {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      
+
       {/* NavBar */}
       <Navbar />
       <Routes>
