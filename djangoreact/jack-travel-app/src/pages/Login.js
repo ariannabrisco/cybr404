@@ -133,6 +133,7 @@ function Login() {
 
         {/* Login Button */}
         <button
+          type="submit"
           onClick={executeLogin}
           style={{
             padding: '10px 20px',
@@ -152,6 +153,7 @@ function Login() {
 
         {/* Sign Up Button */}
         <button
+        type="submit"
           onClick={executeSignUp}  // only change from login button
           style={{
             padding: '10px 20px',
