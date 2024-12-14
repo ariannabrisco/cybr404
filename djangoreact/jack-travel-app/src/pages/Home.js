@@ -141,9 +141,6 @@ const Home = () => {
           value={searchQuery} // Bind the search query state to the input value
           aria-label="Search bar entry" // Accessibility label
           onChange={(e) => setSearchQuery(e.target.value)} // Update the search query state on user input
-          value={searchQuery}
-          aria-label="Search bar entry"
-          onChange={(e) => setSearchQuery(e.target.value)} // Allow typing
           style={{
             padding: "10px",
             fontSize: "18px",
@@ -174,12 +171,6 @@ const Home = () => {
           <h2 style={{ fontSize: "28px", marginBottom: "10px" }}>🔍 Search Results 🔍</h2>
           <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
             {searchResults.map((place) => (
-      {/* Hot List Section */}
-      {false && <div style={{ marginTop: "20px" }}>
-        <h2 style={{ fontSize: "28px", marginBottom: "10px" }}>🔥 Hot List 🔥</h2>
-        <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
-          {["Cunningham's Journal", "Axe Holes", "Kearney Community Theater", "The Lodge", "Candy Cane Parade"].map(
-            (place, index) => (
               <li
                 key={place.id} // Ensure each item has a unique key
                 style={{
@@ -190,8 +181,6 @@ const Home = () => {
                   display: "flex",
                   alignItems: "center",
                   backgroundColor: "#fffaf0",
-                  cursor: "pointer",
-                  transition: "background-color 0.3s",
                 }}
               >
                 <img
@@ -224,13 +213,6 @@ const Home = () => {
           </ul>
         </div>
       )}
-                  {favoritesList.includes(place) ? "💞" : "🖤"}
-                </button>
-              </li>
-            )
-          )}
-        </ul>
-      </div>}
     </div>
   );
 };
